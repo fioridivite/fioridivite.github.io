@@ -101,11 +101,20 @@ section.cine .trad p b{color:#e0bf6a}
 .vino dd{margin:2px 0 0;font:600 .9rem/1.25 var(--ui)}
 .vino p{margin:0 0 8px}
 .vino p b{color:var(--wine)}
-.cartalink{display:flex;flex-direction:column;align-items:center;margin:14px auto 0;width:max-content;text-decoration:none;color:var(--wine)}
-.cartalink .cmedal{width:150px;height:auto;filter:drop-shadow(0 4px 8px rgba(60,30,10,.18));transition:transform .2s}
-.cartalink:hover .cmedal{transform:scale(1.04)}
-.cartalink .cl1{font:italic 500 1.2rem/1 'Cormorant Garamond',Georgia,serif;margin-top:2px}
-.cartalink .cl2{font:800 .7rem var(--ui);letter-spacing:.12em;text-transform:uppercase;color:#8a6414;margin-top:4px}
+.cartalink{position:relative;display:flex;width:min(100%,270px);margin:26px auto 34px;padding:9px;border-radius:12px;text-decoration:none;color:var(--wine);
+background:radial-gradient(120% 90% at 30% 20%,#8a1f3c 0,#5e1027 55%,#3e0918 100%);box-shadow:0 2px 0 #2a0610,0 4px 0 #2a0610,inset 0 0 0 1px rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.18);transition:transform .2s,box-shadow .2s}
+.cartalink:before{content:"";position:absolute;inset:4px;border:1.5px dashed rgba(224,191,106,.75);border-radius:9px;pointer-events:none}
+.cartalink:after{content:"";position:absolute;left:8%;right:8%;bottom:-30px;height:18px;border-radius:50%;background:rgba(40,8,18,.32);filter:blur(9px);transform:translateZ(-40px);pointer-events:none}
+.cartalink:hover,.cartalink:active{transform:translateY(-3px)}
+.cartalink .pg{position:relative;flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;padding:10px 8px;background:#fbf5e8;box-shadow:0 1px 0 #e9dcc0,0 2px 0 #fbf5e8,0 3px 0 #e2d3b4}
+.cartalink .pgl{flex-grow:1.1;overflow:visible;border-radius:6px 0 0 6px;transform:perspective(420px) rotateY(16deg);transform-origin:100% 50%;box-shadow:-2px 1px 0 #e6d7b8,-4px 2px 0 #fbf5e8,-6px 3px 0 #e2d2b0,-8px 4px 0 #f8f0de,-10px 5px 0 #ddcca8,-13px 7px 10px rgba(40,8,18,.35);background:linear-gradient(90deg,#fbf5e8 0,#f6eedc 70%,#d9c8a4 100%)}
+.cartalink .pgr{border-radius:0 6px 6px 0;flex-direction:column;align-items:flex-start;gap:4px;background:linear-gradient(270deg,#fbf5e8 0,#f6eedc 70%,#d9c8a4 100%)}
+.cartalink .pg:after{content:"";position:absolute;inset:6px;border:1px solid rgba(201,161,74,.45);border-radius:3px;pointer-events:none}
+.cartalink .pgl:after{border-right:0}.cartalink .pgr:after{border-left:0}
+.cartalink .cmedal{width:125%;max-width:none;flex:none;height:auto;margin:-4px -12%;filter:drop-shadow(0 5px 6px rgba(60,30,10,.35))}
+.cartalink .cl1{font:italic 600 1.05rem/1 'Cormorant Garamond',Georgia,serif;color:var(--wine)}
+.cartalink .cl3{font:600 .6rem/1.3 var(--ui);color:#6b5a48}
+.cartalink .cl2{margin-top:6px;background:var(--wine);color:#fff;font:800 .62rem var(--ui);letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border-radius:20px;box-shadow:0 1px 2px rgba(110,21,48,.25);font-size:.56rem}
 .cartalink:focus-visible{outline:3px solid var(--gold);outline-offset:4px;border-radius:12px}
 .local{display:flex;gap:14px;background:var(--card);border-left:6px solid var(--olive);padding:14px 16px;margin-bottom:12px;box-shadow:0 3px 10px rgba(60,40,20,.07)}
 .local .ic{font-size:2rem;line-height:1}
