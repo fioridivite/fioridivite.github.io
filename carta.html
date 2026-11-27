@@ -2765,4 +2765,84 @@ background:radial-gradient(120% 90% at 30% 20%,#8a1f3c 0,#5e1027 55%,#3e0918 100
   });});
   apply();
 })();
+</script><script>
+(function(){
+  var ok = /(^|\.)fioridivite\.com$/.test(location.hostname) || window.GC_FORCE;
+  if(!ok) return;
+  var s = document.createElement('script'); s.async = true;
+  s.src = 'https://gc.zgo.at/count.js'; s.setAttribute('data-goatcounter', 'https://fioridivite.goatcounter.com/count');
+  document.head.appendChild(s);
+  var fila = [], uma = {};
+  function enviar(){
+    if(!(window.goatcounter && window.goatcounter.count)) return setTimeout(enviar, 500);
+    while(fila.length){ window.goatcounter.count({path: fila.shift(), event: true}); }
+  }
+  function ev(nome, soUmaVez){
+    nome = nome.replace(/\s+/g, ' ').trim().slice(0, 120);
+    if(soUmaVez){ if(uma[nome]) return; uma[nome] = 1; }
+    fila.push(nome); enviar();
+  }
+  window.gcEvento = ev;
+  var naCarta = !!document.querySelector('.carta, #q');
+  function txt(el){ return el ? (el.textContent || '').replace(/\s+/g, ' ').trim() : ''; }
+  function secao(el){
+    var a = el.closest('.art'); if(!a) return 'página';
+    if(a.classList.contains('paper')) return 'Capa ' + txt(a.querySelector('.pname'));
+    if(a.classList.contains('cad')) return 'Quaderno ' + txt(a.querySelector('header b'));
+    if(a.classList.contains('local')) return 'Montepulciano';
+    if(a.classList.contains('vino')) return 'Enoteca';
+    if(a.classList.contains('cine')) return 'Cineteca';
+    if(a.classList.contains('viola')) return 'Fiorentina';
+    if(a.classList.contains('wc')) return txt(a.querySelector('h3'));
+    return 'outra';
+  }
+  var P = naCarta ? 'Carta · ' : '';
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('a,button,[role=button],summary'); if(!t) return;
+    if(t.tagName === 'A'){
+      var h = t.href || '', u; try{ u = new URL(h); }catch(x){ return; }
+      if(t.classList.contains('ad')) return ev('Saída · Airbnb (anúncio da casa)');
+      if(t.classList.contains('pc')){ var im = t.querySelector('img'); return ev('Saída · Instagram ' + (im ? im.alt : txt(t.querySelector('.lg')))); }
+      if(u.hostname !== location.hostname){
+        var nome = /airbnb/.test(u.hostname) ? 'Airbnb' : /instagram/.test(u.hostname) ? 'Instagram ' + u.pathname.replace(/\//g, '') : /google/.test(u.hostname) ? 'Google Maps' : u.hostname;
+        return ev(P + 'Saída · ' + nome);
+      }
+      if(t.classList.contains('cartalink')) return ev('Abriu a Carta dei vini (botão da Enoteca)');
+      if(t.classList.contains('cback')) return ev('Carta · voltou ao jornal');
+      var m = u.pathname.match(/arquivo\/(\d{4})-(\d\d)-(\d\d)/);
+      if(m) return ev('Arquivo · abriu a edição de ' + m[3] + '/' + m[2] + '/' + m[1]);
+      return ev(P + 'Link · ' + (txt(t).slice(0, 40) || u.pathname));
+    }
+    if(t.classList.contains('ouvir')){ if(!t.classList.contains('on')) ev('Áudio 🔊 · ' + secao(t)); return; }
+    if(t.classList.contains('tbtn')){
+      var l = (t.dataset.lang || t.dataset.l || '').toUpperCase();
+      return ev((naCarta ? 'Carta · tradução ' + l : 'Tradução ' + l + ' · ' + secao(t)));
+    }
+    if(t.classList.contains('exp')) return ev('Tabela Serie A · abriu a completa');
+    if(t.classList.contains('dot')) return ev('Capas · trocou de jornal (bolinhas)');
+    if(t.tagName === 'SUMMARY') return ev('Carta · abriu curiosidade e harmonização');
+    if(t.dataset.tipo !== undefined) return ev('Carta · filtro de tipo: ' + (t.dataset.tipo || 'todos'));
+    if(t.dataset.cat !== undefined) return ev('Carta · filtro ' + (t.dataset.cat || 'todas as categorias'));
+    if(t.classList.contains('rg')){ if(t.classList.contains('on')) ev('Carta · mapa: ' + t.dataset.reg); return; }
+    if(t.dataset.reg !== undefined) return ev('Carta · região: ' + t.dataset.reg);
+    if(t.id === 'piu') return ev('Carta · mostrar mais vinhos', true);
+    if(t.classList.contains('azzera')) return ev('Carta · limpou os filtros');
+    ev(P + 'Botão · ' + (t.getAttribute('aria-label') || txt(t)).slice(0, 40));
+  }, true);
+  // carrossel das capas: conta uma vez por visita quem deslizou para o lado
+  var tr = document.querySelector('.car .track');
+  if(tr) tr.addEventListener('scroll', function(){ if(tr.scrollLeft > 40) ev('Capas · deslizou o carrossel', true); }, {passive:true});
+  // busca da carta: conta o termo depois que a pessoa para de digitar
+  var q = document.getElementById('q'), tq;
+  if(q) q.addEventListener('input', function(){
+    clearTimeout(tq); var v = q.value.trim().toLowerCase();
+    if(v.length >= 3) tq = setTimeout(function(){ ev('Carta · busca: ' + v.slice(0, 40), true); }, 1500);
+  });
+  // quem chegou a VER cada parte (para comparar visualizações com cliques)
+  if('IntersectionObserver' in window){
+    var alvos = [['.vino', 'Enoteca'], ['.cads', 'Quaderni'], ['.cine', 'Cineteca'], ['.viola', 'Sport'], ['.ad', 'anúncio Airbnb'], ['.partner', 'parceiros']];
+    var io = new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ ev('Viu · ' + x.target.dataset.gcv, true); io.unobserve(x.target); } }); }, {rootMargin: '0px 0px -40% 0px'});
+    alvos.forEach(function(a){ var el = document.querySelector(a[0]); if(el){ el.dataset.gcv = a[1]; io.observe(el); } });
+  }
+})();
 </script></body></html>
